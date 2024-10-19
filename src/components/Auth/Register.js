@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { InputAdornment, TextField } from '@mui/material';
 import { Person, Phone, Business, Email } from '@mui/icons-material';
 import logo from '../image/logo.png';
@@ -8,9 +8,10 @@ import EmailIcon from '@mui/icons-material/Email';
 import SendToMobileIcon from '@mui/icons-material/SendToMobile';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { registerCompany, verifyEmailOtp, verifyMobileOtp } from '../../services/api';
-
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
+
   return (
     <div className="flex justify-between items-center p-2">
       <div className="flex items-center">
@@ -25,6 +26,7 @@ function Navbar() {
 
 function Register() {
   // State variables for form inputs and OTP management
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [phone, setPhoneNumber] = useState('');
   const [companyName, setCompanyName] = useState('');
@@ -51,6 +53,7 @@ function Register() {
       })
       console.log(response)
       localStorage.setItem("id", response.data.company._id)
+      localStorage.setItem("token", response.data.token)
 
       if (response.status === 201) {
         setIsOtpVisible(true);
@@ -84,17 +87,29 @@ function Register() {
         const mobileResponse = await verifyMobileOtp({id,otp: mobileOtp });
   
         if (mobileResponse.status === 200) {
+          console.log("object")
           setIsMobileOtpVerified(true);
         } else {
           setError('Invalid Mobile OTP. Please try again.');
           return;
         }
       }
+      console.log(isEmailOtpVerified)
+      console.log(isMobileOtpVerified)
+
+      
     } catch (error) {
       console.error('Error during OTP verification:', error);
       setError('There was an error during OTP verification. Please try again.');
     }
   };
+  useEffect(() => {
+    if (isEmailOtpVerified && isMobileOtpVerified) {
+      setTimeout(() => {
+        navigate('/post');
+      }, 1000);
+    }
+  },[isEmailOtpVerified,isMobileOtpVerified])
   
 
   return (
