@@ -43,7 +43,6 @@ function JobForm() {
     setSelectedTemplate(templateName);
     handleCloseModal();
 
-    // Send the selected template name to the backend
     fetch('/api/send-template', {
       method: 'POST',
       headers: {
