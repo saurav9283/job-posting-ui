@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080';
+const API_URL = 'https://job-posting-backend-k9ii.onrender.com/';
+// const API_URL = 'http://localhost:8080';
 
 export const registerCompany = (data) => axios.post(`${API_URL}/auth/signup`, data);
 export const verifyEmailOtp = (data) => axios.post(`${API_URL}/otp/verify-email`, data);
