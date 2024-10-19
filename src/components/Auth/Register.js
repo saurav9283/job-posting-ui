@@ -50,7 +50,7 @@ function Register() {
         employeeCount,
       })
       console.log(response)
-      localStorage.setItem("id", response.data._id)
+      localStorage.setItem("id", response.data.company._id)
 
       if (response.status === 201) {
         setIsOtpVisible(true);
@@ -69,7 +69,7 @@ function Register() {
     try {
       // Verify email OTP if not already verified
       if (!isEmailOtpVerified) {
-        const emailResponse = await verifyEmailOtp({ id,emailOtp });
+        const emailResponse = await verifyEmailOtp({ id,otp:emailOtp });
   
         if (emailResponse.status === 200 ) {
           setIsEmailOtpVerified(true);
@@ -81,9 +81,9 @@ function Register() {
   
       // Verify mobile OTP if not already verified
       if (!isMobileOtpVerified) {
-        const mobileResponse = await verifyMobileOtp({id, mobileOtp });
+        const mobileResponse = await verifyMobileOtp({id,otp: mobileOtp });
   
-        if (mobileResponse.status === 200 && mobileResponse.data.mobileOtpVerified) {
+        if (mobileResponse.status === 200) {
           setIsMobileOtpVerified(true);
         } else {
           setError('Invalid Mobile OTP. Please try again.');
