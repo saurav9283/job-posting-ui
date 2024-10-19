@@ -20,7 +20,7 @@ function JobList() {
                 {showForm && (
                     <div className="fixed inset-0 flex items-center justify-start bg-white bg-opacity-5 ml-[14%]">
                         <div className="bg-white p-3 h-[70%]  rounded-md w-[60%] ">
-                            <JobForm />
+                            <JobForm showForm={showForm} />
                         </div>
                     </div>
                 )}
